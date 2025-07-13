@@ -1,43 +1,33 @@
-import { MaterialIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
+import { MaterialIcons } from '@expo/vector-icons';
 
-// Ganti ke gambar dari picsum.photos, id 1011-1020 agar unik
-const picsumImages = [
-  "https://picsum.photos/id/1011/300/300",
-  "https://picsum.photos/id/1012/300/300",
-  "https://picsum.photos/id/1013/300/300",
-  "https://picsum.photos/id/1014/300/300",
-  "https://picsum.photos/id/1015/300/300",
-  "https://picsum.photos/id/1016/300/300",
-  "https://picsum.photos/id/1017/300/300",
-  "https://picsum.photos/id/1018/300/300",
-  "https://picsum.photos/id/1019/300/300",
+// Sumber foto grid: id Picsum berbeda semua
+const initialGridImages = [
+  { id: 1, mainSrc: 'https://picsum.photos/id/201/200', altSrc: 'https://picsum.photos/id/202/200', isFlipped: false, scale: 1 },
+  { id: 2, mainSrc: 'https://picsum.photos/id/203/200', altSrc: 'https://picsum.photos/id/204/200', isFlipped: false, scale: 1 },
+  { id: 3, mainSrc: 'https://picsum.photos/id/205/200', altSrc: 'https://picsum.photos/id/206/200', isFlipped: false, scale: 1 },
+  { id: 4, mainSrc: 'https://picsum.photos/id/207/200', altSrc: 'https://picsum.photos/id/208/200', isFlipped: false, scale: 1 },
+  { id: 5, mainSrc: 'https://picsum.photos/id/209/200', altSrc: 'https://picsum.photos/id/210/200', isFlipped: false, scale: 1 },
+  { id: 6, mainSrc: 'https://picsum.photos/id/211/200', altSrc: 'https://picsum.photos/id/212/200', isFlipped: false, scale: 1 },
+  { id: 7, mainSrc: 'https://picsum.photos/id/213/200', altSrc: 'https://picsum.photos/id/214/200', isFlipped: false, scale: 1 },
+  { id: 8, mainSrc: 'https://picsum.photos/id/215/200', altSrc: 'https://picsum.photos/id/216/200', isFlipped: false, scale: 1 },
+  { id: 9, mainSrc: 'https://picsum.photos/id/217/200', altSrc: 'https://picsum.photos/id/218/200', isFlipped: false, scale: 1 },
 ];
-
-const initialGridImages = picsumImages.map((src, idx) => ({
-  id: idx + 1,
-  src,
-  scale: 1,
-}));
 
 export default function Index() {
   const [gridImages, setGridImages] = useState(initialGridImages);
 
-  // Saat gambar diklik, acak gambar dari daftar baru dan reset scale ke 1
+  // Fungsi untuk menangani klik gambar
   const handleImagePress = (imageId: number) => {
     setGridImages(currentImages =>
       currentImages.map(image => {
         if (image.id === imageId) {
-          // Pilih gambar acak yang berbeda dari gambar sekarang
-          let newSrc = image.src;
-          while (newSrc === image.src) {
-            newSrc = picsumImages[Math.floor(Math.random() * picsumImages.length)];
-          }
+          const newScale = Math.min(image.scale * 1.2, 2);
           return {
             ...image,
-            src: newSrc,
-            scale: 1, // reset scale
+            isFlipped: !image.isFlipped,
+            scale: newScale,
           };
         }
         return image;
@@ -47,25 +37,7 @@ export default function Index() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.rectangle}>
-        <Image
-          source={{ uri: "https://clipart-library.com/images/kcKo6jA5i.gif" }}
-          style={styles.image}
-          resizeMode="cover"
-        />
-      </View>
-      <View style={styles.triangle} />
-      <View style={styles.pill}>
-        <MaterialIcons name="person" size={24} color="white" />
-        <Text style={styles.pillText}>105841111322</Text>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.redText}>rayy</Text>
-        <Text style={styles.whiteText}>105841111322</Text>
-      </View>
-      <View style={styles.blueCircle}></View>
-
-      {/* Grid gambar 3x3 */}
+      {/* Grid gambar 3x3 dipindahkan ke atas */}
       <View style={styles.gridContainer}>
         {gridImages.map(image => (
           <TouchableOpacity
@@ -74,7 +46,7 @@ export default function Index() {
             style={styles.gridCell}
           >
             <Image
-              source={{ uri: image.src }}
+              source={{ uri: image.isFlipped ? image.altSrc : image.mainSrc }}
               style={[
                 styles.gridImage,
                 { 
@@ -87,6 +59,24 @@ export default function Index() {
           </TouchableOpacity>
         ))}
       </View>
+      {/* Komponen lain di bawah grid */}
+      <View style={styles.rectangle}>
+        <Image
+          source={{ uri: "https://www.gambaranimasi.org/data/media/781/animasi-bergerak-bendera-indonesia-0012.gif" }}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      </View>
+      <View style={styles.triangle} />
+      <View style={styles.pill}>
+        <MaterialIcons name="person" size={24} color="white" />
+        <Text style={styles.pillText}>105841111322</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.redText}>RAYY</Text>
+        <Text style={styles.whiteText}>105841111322</Text>
+      </View>
+      <View style={styles.blueCircle}></View>
     </ScrollView>
   );
 }
@@ -174,8 +164,9 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     width: '100%',
-    maxWidth: 330, // Maksimal 3 kolom (100*3 + margin)
+    maxWidth: 330,
     marginTop: 20,
+    marginBottom: 30,
   },
   gridCell: {
     width: 100,
