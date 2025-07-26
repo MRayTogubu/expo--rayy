@@ -3,9 +3,8 @@ import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView, ActivityIn
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
 
-// --- BAGIAN LOGIKA TUGAS ---
 
-// 1. Daftar nama mahasiswa (gantilah dengan daftar nama yang sebenarnya)
+
 const daftarNama = Array.from({ length: 123 }, (_, i) => {
   const nomor = i + 1;
   switch (nomor) {
@@ -14,24 +13,25 @@ const daftarNama = Array.from({ length: 123 }, (_, i) => {
     case 115: return "115 reski asriani";
     case 117: return "117 Hardita Subanda";
     case 118: return "118 ari ahmad dahril";
-
     default: return `${nomor} tidak diketahui`;
   }
 });
 
-// 2. Fungsi untuk mendapatkan nama sebelum dan sesudah urutan tertentu
+
+
+
 const getNamaSekitar = (urutan: number, total: number, sebelum: number, sesudah: number) => {
   const namaSebelum = [];
   const namaSesudah = [];
-  const index = urutan - 1; // Ubah urutan 1-based menjadi index 0-based
+  const index = urutan - 1; 
 
-  // Ambil 5 nama sebelumnya dengan logika circular
+  
   for (let i = 1; i <= sebelum; i++) {
     const targetIndex = (index - i + total) % total;
     namaSebelum.push(daftarNama[targetIndex]);
   }
 
-  // Ambil 5 nama setelahnya dengan logika circular
+  
   for (let i = 1; i <= sesudah; i++) {
     const targetIndex = (index + i) % total;
     namaSesudah.push(daftarNama[targetIndex]);
@@ -40,31 +40,30 @@ const getNamaSekitar = (urutan: number, total: number, sebelum: number, sesudah:
   return { namaSebelum, namaSesudah };
 };
 
-// --- DATA UNTUK NIM KAMU ---
-const NIM_URUTAN = 113; // Tiga digit terakhir NIM
+
+const NIM_URUTAN = 113; 
 const TOTAL_NAMA = 123;
 const { namaSebelum, namaSesudah } = getNamaSekitar(NIM_URUTAN, TOTAL_NAMA, 5, 5);
 
 
-// --- KOMPONEN GAMBAR (TIDAK DIUBAH) ---
+
 const initialGridImages = [
-  { id: 1, mainSrc: 'https://picsum.photos/id/10/200', altSrc: 'https://picsum.photos/id/11/200', isFlipped: false, scale: 1 },
-  { id: 2, mainSrc: 'https://picsum.photos/id/12/200', altSrc: 'https://picsum.photos/id/13/200', isFlipped: false, scale: 1 },
-  { id: 3, mainSrc: 'https://picsum.photos/id/14/200', altSrc: 'https://picsum.photos/id/15/200', isFlipped: false, scale: 1 },
-  { id: 4, mainSrc: 'https://picsum.photos/id/16/200', altSrc: 'https://picsum.photos/id/17/200', isFlipped: false, scale: 1 },
-  { id: 5, mainSrc: 'https://picsum.photos/id/18/200', altSrc: 'https://picsum.photos/id/19/200', isFlipped: false, scale: 1 },
-  { id: 6, mainSrc: 'https://picsum.photos/id/20/200', altSrc: 'https://picsum.photos/id/21/200', isFlipped: false, scale: 1 },
-  { id: 7, mainSrc: 'https://picsum.photos/id/22/200', altSrc: 'https://picsum.photos/id/23/200', isFlipped: false, scale: 1 },
-  { id: 8, mainSrc: 'https://picsum.photos/id/24/200', altSrc: 'https://picsum.photos/id/25/200', isFlipped: false, scale: 1 },
-  { id: 9, mainSrc: 'https://picsum.photos/id/26/200', altSrc: 'https://picsum.photos/id/27/200', isFlipped: false, scale: 1 },
+  { id: 1, mainSrc: 'https://picsum.photos/id/31/200', altSrc: 'https://picsum.photos/id/32/200', isFlipped: false, scale: 1 },
+  { id: 2, mainSrc: 'https://picsum.photos/id/33/200', altSrc: 'https://picsum.photos/id/34/200', isFlipped: false, scale: 1 },
+  { id: 3, mainSrc: 'https://picsum.photos/id/35/200', altSrc: 'https://picsum.photos/id/36/200', isFlipped: false, scale: 1 },
+  { id: 4, mainSrc: 'https://picsum.photos/id/37/200', altSrc: 'https://picsum.photos/id/38/200', isFlipped: false, scale: 1 },
+  { id: 5, mainSrc: 'https://picsum.photos/id/39/200', altSrc: 'https://picsum.photos/id/40/200', isFlipped: false, scale: 1 },
+  { id: 6, mainSrc: 'https://picsum.photos/id/41/200', altSrc: 'https://picsum.photos/id/42/200', isFlipped: false, scale: 1 },
+  { id: 7, mainSrc: 'https://picsum.photos/id/43/200', altSrc: 'https://picsum.photos/id/44/200', isFlipped: false, scale: 1 },
+  { id: 8, mainSrc: 'https://picsum.photos/id/45/200', altSrc: 'https://picsum.photos/id/46/200', isFlipped: false, scale: 1 },
+  { id: 9, mainSrc: 'https://picsum.photos/id/47/200', altSrc: 'https://picsum.photos/id/48/200', isFlipped: false, scale: 1 },
 ];
 
 
 export default function Index() {
   const [gridImages, setGridImages] = useState(initialGridImages);
 
-  // --- BAGIAN FONT ---
-  // Ganti nama file sesuai dengan font yang di unduh ke folder assets/fonts
+  
   const [fontsLoaded] = useFonts({
     // 5 Font Statis
     'Poppins-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
@@ -72,7 +71,7 @@ export default function Index() {
     'Oswald-Regular': require('../assets/fonts/Oswald-Regular.ttf'),
     'Lato-Regular': require('../assets/fonts/Lato-Regular.ttf'),
     'Lato-Bold': require('../assets/fonts/Lato-Bold.ttf'),
-    // 5 Font Variabel
+    
     'RobotoFlex-Variable': require('../assets/fonts/RobotoFlex-VariableFont_GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.ttf'),
     'Inter-Variable': require('../assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
     'Montserrat-Variable': require('../assets/fonts/Montserrat-VariableFont_wght.ttf'),
@@ -105,9 +104,9 @@ export default function Index() {
     );
   };
 
-  // Tampilkan loading jika font belum termuat
+  
   if (!fontsLoaded) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <ActivityIndicator size="large" color="#e7014eff" />;
   }
 
   return (
@@ -185,14 +184,14 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  // ... (semua style lama tetap ada di sini)
+  
   container: {
     flexGrow: 1,
     justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#fff",
     paddingVertical: 60,
-    paddingHorizontal: 20, // Tambah padding horizontal
+    paddingHorizontal: 20, 
   },
   rectangle: {
     width: 220,
@@ -216,7 +215,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 70,
     borderLeftColor: "transparent",
     borderRightColor: "transparent",
-    borderBottomColor: "orange",
+    borderBottomColor: "red",
     marginBottom: 20,
   },
   pill: {
@@ -284,7 +283,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  // --- STYLE BARU UNTUK DAFTAR NAMA ---
+  
   namaContainer: {
     width: '100%',
     maxWidth: 330,
@@ -299,13 +298,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 10,
     marginTop: 5,
-    fontFamily: 'Poppins-Bold', // Menggunakan font statis
+    fontFamily: 'Poppins-Bold', 
     color: '#333',
   },
   namaItem: {
     fontSize: 16,
     paddingVertical: 4,
     color: '#555',
-    // fontFamily diatur secara inline untuk contoh
+    
   },
 });
